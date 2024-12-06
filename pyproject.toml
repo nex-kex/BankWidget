@@ -21,6 +21,8 @@ exclude = 'venv'
 check_untyped_defs = true
 # Сообщает, если какой-то кусок кода никогда не выполняется
 warn_unreachable = true
+# Игнорирует локальный импорт
+ignore_missing_imports = true
 
 [tool.poetry]
 name = "pythonproject1"
