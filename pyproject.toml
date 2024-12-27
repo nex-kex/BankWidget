@@ -16,7 +16,7 @@ disallow_untyped_defs = true
 no_implicit_optional = true
 # mypy предупреждает, если в качестве возвращаемого типа было указано Any
 warn_return_any = true
-exclude = 'venv'
+exclude = 'venv|tests'
 # Проверка корректности типизации в функции без аннотаций
 check_untyped_defs = true
 # Сообщает, если какой-то кусок кода никогда не выполняется
