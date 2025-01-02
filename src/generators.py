@@ -14,11 +14,11 @@ def transaction_descriptions(transactions: list[dict]) -> Iterator[str]:
         yield transaction["description"]
 
 
-def card_number_generator(start: int, finish: int) -> Iterator[str]:
+def card_number_generator(start: int, stop: int) -> Iterator[str]:
     """Генератор, который выдает номера банковских карт в определённом формате"""
     int_card_number = start
 
-    while int_card_number <= finish:
+    while int_card_number <= stop:
         str_card_number = str(int_card_number)
         while len(str_card_number) != 16:
             str_card_number = "0" + str_card_number
