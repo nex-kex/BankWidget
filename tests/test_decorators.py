@@ -22,3 +22,13 @@ def test_log_no_errors(capsys):
         captured.out[:82] + captured.out[93:-2]
         == "multiply executed with no errors. Input args: (3, 7), kwargs: {}. Execution time: seconds."
     )
+
+
+def test_log_file():
+    @log(filename="mylog.txt")
+    def my_function(x, y):
+        return x == y
+
+    my_function(3, 4)
+    with open("mylog.txt", "r", encoding="utf-8") as f:
+        assert f.readlines()[-1][:68] == "my_function executed with no errors. Input args: (3, 4), kwargs: {}."
