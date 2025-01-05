@@ -9,7 +9,7 @@ def log(filename: str = "") -> Callable:
 
     def my_decorator(func: Callable) -> Callable:
         @wraps(func)
-        def wrapper(*args: Any, **kwargs: Any) -> None:
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
 
             # Время начала выполнения
             start_time = time()
@@ -34,6 +34,8 @@ def log(filename: str = "") -> Callable:
                     f.write(new_log)
             else:
                 print(new_log)
+
+            return func(*args, **kwargs)
 
         return wrapper
 
