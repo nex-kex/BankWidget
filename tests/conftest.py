@@ -60,3 +60,16 @@ def transactions():
             "to": "Счет 14211924144426031657",
         },
     ]
+
+
+@pytest.fixture
+def RUS_transaction():
+    return {
+        "id": 200634844,
+        "state": "CANCELED",
+        "date": "2018-02-13T04:43:11.374324",
+        "operationAmount": {"amount": 42210.20, "currency": {"name": "руб.", "code": "RUB"}},
+        "description": "Перевод организации",
+        "from": "Счет 33355011456314142963",
+        "to": "Счет 45735917297559088682",
+    }
