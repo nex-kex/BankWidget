@@ -1,6 +1,5 @@
-from typing import Union
 import logging
-
+from typing import Union
 
 log_path = "./logs/masks.log"
 
@@ -11,7 +10,7 @@ if __name__ == "__main__":
 
 logger = logging.getLogger("masks")
 file_handler = logging.FileHandler(log_path, "w", encoding="utf-8")
-file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s: %(message)s')
+file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s: %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 logger.setLevel(logging.DEBUG)

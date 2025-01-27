@@ -1,7 +1,7 @@
 import json
-from src.external_api import convert_to_rub
 import logging
 
+from src.external_api import convert_to_rub
 
 log_path = "./logs/utils.log"
 
@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
 logger = logging.getLogger("utils")
 file_handler = logging.FileHandler(log_path, "w", encoding="utf-8")
-file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s: %(message)s')
+file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s: %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 logger.setLevel(logging.DEBUG)
