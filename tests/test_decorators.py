@@ -1,3 +1,5 @@
+import pytest
+
 from src.decorators import log
 
 
@@ -6,7 +8,9 @@ def test_log_error(capsys):
     def mistake():
         raise ValueError("Guaranteed error")
 
-    mistake()
+    with pytest.raises(ValueError):
+        mistake()
+
     captured = capsys.readouterr()
     assert captured.out[:49] == "mistake executed with an error: Guaranteed error."
 
@@ -25,10 +29,10 @@ def test_log_no_errors(capsys):
 
 
 def test_log_file():
-    @log(filename="mylog.txt")
+    @log(filename="./logs/mylog.log")
     def my_function(x, y):
         return x == y
 
     my_function(3, 4)
-    with open("mylog.txt", "r", encoding="utf-8") as f:
+    with open("./logs/mylog.log", "r", encoding="utf-8") as f:
         assert f.readlines()[-1][:68] == "my_function executed with no errors. Input args: (3, 4), kwargs: {}."
