@@ -3,11 +3,11 @@ import logging
 
 from src.external_api import convert_to_rub
 
-log_path = "./logs/utils.log"
+log_path = "../logs/utils.log"
 
 # Устраняет ошибку отсутствия файла при импорте модуля
-if __name__ == "__main__":
-    log_path = "." + log_path
+if __name__ != "__main__":
+    log_path = log_path[1:]
 
 
 logger = logging.getLogger("utils")
@@ -26,16 +26,9 @@ def get_transactions_info(file_path: str) -> list[dict]:
             logger.info(f"Loading transactions from {file_path}...")
             transactions = json.load(f)
 
-    except FileNotFoundError as ex:
-        logger.error(f"Exception occurred: {ex}")
-        return []
-
-    except json.JSONDecodeError as ex:
-        logger.error(f"Exception occurred: {ex}")
-        return []
-
     except Exception as ex:
         logger.error(f"Exception occurred: {ex}")
+        return []
 
     return transactions
 
