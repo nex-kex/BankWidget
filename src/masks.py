@@ -1,11 +1,11 @@
 import logging
 from typing import Union
 
-log_path = "./logs/masks.log"
+log_path = "../logs/masks.log"
 
 # Устраняет ошибку отсутствия файла при импорте модуля
-if __name__ == "__main__":
-    log_path = "." + log_path
+if __name__ != "__main__":
+    log_path = log_path[1:]
 
 
 logger = logging.getLogger("masks")

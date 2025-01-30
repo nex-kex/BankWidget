@@ -73,3 +73,31 @@ def RUS_transaction():
         "from": "Счет 33355011456314142963",
         "to": "Счет 45735917297559088682",
     }
+
+
+@pytest.fixture
+def csv_transactions():
+    return [
+        {
+            "id": "1",
+            "state": "2",
+            "date": "3",
+            "amount": "4",
+            "currency_name": "5",
+            "currency_code": "6",
+            "from": "7",
+            "to": "8",
+            "description": "9",
+        },
+        {
+            "id": "11",
+            "state": "22",
+            "date": "33",
+            "amount": "44",
+            "currency_name": "55",
+            "currency_code": "66",
+            "from": "77",
+            "to": "88",
+            "description": "99",
+        },
+    ]

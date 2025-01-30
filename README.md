@@ -7,7 +7,8 @@
 - отображать операции клиента и их описание;
 - показывать несколько последних успешных банковских операций;
 - сортировать операции по дате, статусу и валюте;
-- регистрировать детали выполнения операций и информацию об ошибках.
+- регистрировать детали выполнения операций и информацию об ошибках;
+- считывать данные с JSON-, CSV- и XLSX_файлов.
 
 ## Установка:
 
@@ -40,13 +41,19 @@
 
 ## Примеры работ с функциями:
 
+1. Модуль `masks`:
+
 ```
 print(get_mask_card_number(7000792289606361))
 >>> 7000 79** **** 6361
 
 print(get_mask_account(73654108430135874305))
 >>> **4305
+```
 
+2. Модуль `widget`:
+
+```
 print(mask_account_card("Visa Platinum 8990922113665229"))
 print(mask_account_card("Счет 73654108430135874305"))
 print(mask_account_card("MasterCard 7158300734726758"))
@@ -56,7 +63,11 @@ print(mask_account_card("MasterCard 7158300734726758"))
 
 print(get_date("2024-03-11T02:26:18.671407"))
 >>> 11.03.2024
+```
 
+3. Модуль `processing`:
+
+```
 print(filter_by_state([{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'},
         {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'},
         {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'},
@@ -72,7 +83,11 @@ print(sort_by_date([{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18
      {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}, 
      {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'}, 
      {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}]
-     
+```
+
+4. Модуль `generators`:
+
+```
 transactions = (
     [
         {
@@ -195,7 +210,11 @@ print(list(card_number_generator(1, 5)))
     "0000 0000 0000 0004",
     "0000 0000 0000 0005"
 ]
+```
 
+5. Модуль `decorators`:
+
+```
 @log()
 def my_function(x, y):
     return x + y
@@ -209,4 +228,28 @@ def my_function(x, y):
 my_function(1, 0)
 >>>
 my_function executed with an error: division by zero. Input args: (1, 0), kwargs: {}. Execution time: 0.00000787 seconds.
+```
+
+6. Модуль `read_from_table`:
+
+```
+print(read_from_csv("../data/transactions.csv")
+>>>
+[{'id': '650703', 'state': 'EXECUTED', 'date': '2023-09-05T11:30:32Z', 'amount': '16210', 
+        'currency_name': 'Sol', 'currency_code': 'PEN', 'from': 'Счет 58803664561298323391', 
+        'to': 'Счет 39745660563456619397', 'description': 'Перевод организации'},
+       {'id': '3598919', 'state': 'EXECUTED', 'date': '2020-12-06T23:00:58Z', 'amount': '29740',
+        'currency_name': 'Peso', 'currency_code': 'COP', 'from': 'Discover 3172601889670065',
+        'to': 'Discover 0720428384694643', 'description': 'Перевод с карты на карту'} 
+... ]
+
+print(read_from_xlsx("../data/transactions_excel.xlsx")
+>>>
+[{'id': '650703', 'state': 'EXECUTED', 'date': '2023-09-05T11:30:32Z', 'amount': '16210', 
+        'currency_name': 'Sol', 'currency_code': 'PEN', 'from': 'Счет 58803664561298323391', 
+        'to': 'Счет 39745660563456619397', 'description': 'Перевод организации'},
+       {'id': '3598919', 'state': 'EXECUTED', 'date': '2020-12-06T23:00:58Z', 'amount': '29740',
+        'currency_name': 'Peso', 'currency_code': 'COP', 'from': 'Discover 3172601889670065',
+        'to': 'Discover 0720428384694643', 'description': 'Перевод с карты на карту'} 
+... ]
 ```
