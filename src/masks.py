@@ -1,10 +1,11 @@
 import logging
 from typing import Union
+import os
 
 log_path = "../logs/masks.log"
 
 # Устраняет ошибку отсутствия файла при импорте модуля
-if __name__ != "__main__":
+if str(os.path.dirname(os.path.abspath(__name__)))[-3:] != "src":
     log_path = log_path[1:]
 
 

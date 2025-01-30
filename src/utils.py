@@ -1,12 +1,13 @@
 import json
 import logging
+import os
 
 from src.external_api import convert_to_rub
 
 log_path = "../logs/utils.log"
 
 # Устраняет ошибку отсутствия файла при импорте модуля
-if __name__ != "__main__":
+if str(os.path.dirname(os.path.abspath(__name__)))[-3:] != "src":
     log_path = log_path[1:]
 
 
