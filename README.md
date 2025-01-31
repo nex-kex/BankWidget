@@ -6,9 +6,9 @@
 
 - отображать операции клиента и их описание;
 - показывать несколько последних успешных банковских операций;
-- сортировать операции по дате, статусу и валюте;
 - регистрировать детали выполнения операций и информацию об ошибках;
-- считывать данные с JSON-, CSV- и XLSX_файлов.
+- считывать данные с JSON-, CSV- и XLSX_файлов,
+- сортировать операции по статусу, дате, валюте, ключевым словам.
 
 ## Установка:
 
@@ -22,7 +22,9 @@
 
 ## Использование:
 
-*в процессе*
+1. Запустите программу в модуле `main.py` в корневой директории `src/`.
+
+2. Программа будет задавать вопросы о сортировке, ответ нужно печатать текстом (регистр не важен).
 
 ## Тестирование:
 
@@ -94,13 +96,9 @@ transactions = (
             "id": 939719570,
             "state": "EXECUTED",
             "date": "2018-06-30T02:08:58.425572",
-            "operationAmount": {
-                "amount": "9824.07",
-                "currency": {
-                    "name": "USD",
-                    "code": "USD"
-                }
-            },
+            "amount": "9824.07",
+            "currency_name": "USD",
+            "currency_code": "USD"
             "description": "Перевод организации",
             "from": "Счет 75106830613657916952",
             "to": "Счет 11776614605963066702"
@@ -109,13 +107,9 @@ transactions = (
             "id": 142264268,
             "state": "EXECUTED",
             "date": "2019-04-04T23:20:05.206878",
-            "operationAmount": {
-                "amount": "79114.93",
-                "currency": {
-                    "name": "USD",
-                    "code": "USD"
-                }
-            },
+            "amount": "79114.93",
+            "currency_name": "USD",
+            "currency_code": "USD"
             "description": "Перевод со счета на счет",
             "from": "Счет 19708645243227258542",
             "to": "Счет 75651667383060284188"
@@ -124,13 +118,9 @@ transactions = (
             "id": 873106923,
             "state": "EXECUTED",
             "date": "2019-03-23T01:09:46.296404",
-            "operationAmount": {
-                "amount": "43318.34",
-                "currency": {
-                    "name": "руб.",
-                    "code": "RUB"
-                }
-            },
+            "amount": "43318.34",
+            "currency_name": "руб.",
+            "currency_code": "RUB",
             "description": "Перевод со счета на счет",
             "from": "Счет 44812258784861134719",
             "to": "Счет 74489636417521191160"
@@ -139,13 +129,9 @@ transactions = (
             "id": 895315941,
             "state": "EXECUTED",
             "date": "2018-08-19T04:27:37.904916",
-            "operationAmount": {
-                "amount": "56883.54",
-                "currency": {
-                    "name": "USD",
-                    "code": "USD"
-                }
-            },
+            "amount": "56883.54",
+            "currency_name": "USD",
+            "currency_code": "USD"
             "description": "Перевод с карты на карту",
             "from": "Visa Classic 6831982476737658",
             "to": "Visa Platinum 8990922113665229"
@@ -154,13 +140,9 @@ transactions = (
             "id": 594226727,
             "state": "CANCELED",
             "date": "2018-09-12T21:27:25.241689",
-            "operationAmount": {
-                "amount": "67314.70",
-                "currency": {
-                    "name": "руб.",
-                    "code": "RUB"
-                }
-            },
+            "amount": "67314.70",
+            "currency_name": "руб.",
+            "currency_code": "RUB",
             "description": "Перевод организации",
             "from": "Visa Platinum 1246377376343588",
             "to": "Счет 14211924144426031657"
@@ -175,7 +157,9 @@ print(list(filter_by_currency(transactions, "RUB")))
         "id": 873106923,
         "state": "EXECUTED",
         "date": "2019-03-23T01:09:46.296404",
-        "operationAmount": {"amount": "43318.34", "currency": {"name": "руб.", "code": "RUB"}},
+        "amount": "43318.34", 
+        "currency_name": "руб.", 
+        "currency_code": "RUB",
         "description": "Перевод со счета на счет",
         "from": "Счет 44812258784861134719",
         "to": "Счет 74489636417521191160",
@@ -184,7 +168,9 @@ print(list(filter_by_currency(transactions, "RUB")))
         "id": 594226727,
         "state": "CANCELED",
         "date": "2018-09-12T21:27:25.241689",
-        "operationAmount": {"amount": "67314.70", "currency": {"name": "руб.", "code": "RUB"}},
+        "amount": "67314.70", 
+        "currency_name": "руб.", 
+        "currency_code": "RUB",
         "description": "Перевод организации",
         "from": "Visa Platinum 1246377376343588",
         "to": "Счет 14211924144426031657",
@@ -252,4 +238,37 @@ print(read_from_xlsx("../data/transactions_excel.xlsx")
         'currency_name': 'Peso', 'currency_code': 'COP', 'from': 'Discover 3172601889670065',
         'to': 'Discover 0720428384694643', 'description': 'Перевод с карты на карту'} 
 ... ]
+```
+
+7. Модуль `search`:
+
+```
+print(search_transactions(transactions, "организации"))
+>>> 
+[{
+    "id": 939719570,
+    "state": "EXECUTED",
+    "date": "2018-06-30T02:08:58.425572",
+    "amount": "9824.07",
+    "currency_name": "USD",
+    "currency_code": "USD",
+    "description": "Перевод организации",
+    "from": "Счет 75106830613657916952",
+    "to": "Счет 11776614605963066702"
+},
+{
+    "id": 594226727,
+    "state": "CANCELED",
+    "date": "2018-09-12T21:27:25.241689",
+    "amount": "67314.70",
+    "currency_name": "руб.",
+    "currency_code": "RUB",
+    "description": "Перевод организации",
+    "from": "Visa Platinum 1246377376343588",
+    "to": "Счет 14211924144426031657"
+}]
+        
+print(filter_by_category(transactions, ["Перевод организации", "Перевод с карты на карту"]))
+>>>
+{"Перевод организации": 2, "Перевод с карты на карту": 1}
 ```
