@@ -30,7 +30,7 @@ def test_get_transaction_amount_rus(RUS_transaction):
 def test_get_transaction_amount_not_rus(mock_get):
     mock_get.return_value.json.return_value = {"result": 123.45}
     assert (
-        get_transaction_amount({"operationAmount": {"amount": 1, "currency": {"name": "USD", "code": "USD"}}})
+        get_transaction_amount({"amount": 1, "currency_name": "USD", "currency_code": "USD"})
         == 123.45
     )
 
