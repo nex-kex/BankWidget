@@ -1,6 +1,6 @@
 import logging
-from typing import Union
 import os
+from typing import Union
 
 log_path = "../logs/masks.log"
 

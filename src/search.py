@@ -16,11 +16,13 @@ def search_transactions(transactions_list: list[dict], search_info: str) -> list
     return filtered_transactions
 
 
-def filter_by_category(transactions_list: list[dict], categories_list: list[str] = []) -> dict[str: int]:
+def filter_by_category(transactions_list: list[dict], categories_list: list[str] = []) -> dict:
     """Функция принимает список словарей с данными о транзакциях и список категорий операций,
     а возвращает словарь, где ключи - названия категорий, а значения - количество операций в данной категории."""
 
-    all_categories = [transaction["description"] for transaction in transactions_list if transaction.get("description")]
+    all_categories = [
+        transaction["description"] for transaction in transactions_list if transaction.get("description")
+    ]
     counted_categories = Counter(all_categories)
 
     searched_categories = {}
