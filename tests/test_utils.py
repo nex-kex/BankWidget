@@ -7,9 +7,23 @@ def test_get_transactions_info_exception():
     assert get_transactions_info("file") == []
 
 
-@patch("builtins.open", mock_open(read_data=""))
-def test_get_transactions_info():
-    assert get_transactions_info("./data/operations.json") == []
+@patch("builtins.open", mock_open(read_data="""[{
+    "id": 200634844,
+    "state": "CANCELED",
+    "date": "2018-02-13T04:43:11.374324",
+    "operationAmount": {
+      "amount": "42210.20",
+      "currency": {
+        "name": "руб.",
+        "code": "RUB"
+      }
+    },
+    "description": "Перевод организации",
+    "from": "Счет 33355011456314142963",
+    "to": "Счет 45735917297559088682"
+  }]"""))
+def test_get_transactions_info(RUS_transaction):
+    assert get_transactions_info("./data/operations.json") == [RUS_transaction]
 
 
 @patch("json.load")

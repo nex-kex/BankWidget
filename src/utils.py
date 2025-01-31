@@ -35,7 +35,7 @@ def get_transactions_info(file_path: str) -> list[dict]:
 
                 del transaction["operationAmount"]
 
-                transaction["amount"] = amount
+                transaction["amount"] = round(float(amount), 2)
                 transaction["currency_name"] = name
                 transaction["currency_code"] = code
 
@@ -44,6 +44,7 @@ def get_transactions_info(file_path: str) -> list[dict]:
         return []
 
     return transactions
+
 
 
 def get_transaction_amount(transaction: dict) -> float:
