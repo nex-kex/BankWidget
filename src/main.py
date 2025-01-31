@@ -1,14 +1,15 @@
-from read_from_table import read_from_csv, read_from_xlsx
-from utils import get_transactions_info
-from processing import filter_by_state, sort_by_date
-from generators import filter_by_currency
-from search import search_transactions
-from widget import get_date, mask_account_card
+from src.read_from_table import read_from_csv, read_from_xlsx
+from src.utils import get_transactions_info
+from src.processing import filter_by_state, sort_by_date
+from src.generators import filter_by_currency
+from src.search import search_transactions
+from src.widget import get_date, mask_account_card
 
 
-if __name__ == "__main__":
+def get_transactions() -> list[dict]:
+    """Спрашивает у пользователя, в каком формате получить данные
+    и возвращает транзакции из соответствующего файла."""
 
-    # Тип данных, с которыми будет работать программа
     fyle_type = input("""Привет! Добро пожаловать в программу работы
 с банковскими транзакциями.
 Выберите необходимый пункт меню:
@@ -31,8 +32,13 @@ if __name__ == "__main__":
         transactions = read_from_xlsx("../data/transactions_excel.xlsx")
         print("Для обработки выбран XLSX-файл.\n")
 
+    return transactions
 
-    # Статус для сортировки
+
+def get_state_sorted_transactions(transactions: list[dict]) -> list[dict]:
+    """Спрашивает у пользователя, по какому статусу необходимо выполнить фильтрацию
+    и возвращает список транзакций с соответствующим статусом."""
+
     status_type = input("""Введите статус, по которому необходимо выполнить фильтрацию.
 Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING
 """).upper()
@@ -46,8 +52,13 @@ if __name__ == "__main__":
 
     print(f'Операции отфильтрованы по статусу "{status_type}"\n')
 
+    return transactions_by_status
 
-    # Сортировка по дате
+
+def get_date_sorted_transactions(transactions_by_status: list[dict]) -> list[dict]:
+    """Спрашивает у пользователя, нужно ли сортировать по дате. Если да - то в каком порядке
+    (по убыванию или возрастанию), возвращает список отсортированных по дате транзакций."""
+
     sorting_by_date = input("Отсортировать операции по дате? Да/Нет\n").lower()
 
     while sorting_by_date not in ["да", "нет"]:
@@ -67,9 +78,13 @@ if __name__ == "__main__":
     else:
         sorted_by_date = transactions_by_status
 
+    return sorted_by_date
 
 
-    # Сортировка по валюте
+def get_currency_sorted_transactions(sorted_by_date: list[dict]) -> list[dict]:
+    """Спрашивает у пользователя, нужно ли выводить только транзакции в рублях.
+    Если да - возвращает список транзакций в рублях, если нет - всех транзакций."""
+
     only_rub = input("Выводить только рублевые транзакции? Да/Нет\n").lower()
 
     while only_rub not in ["да", "нет"]:
@@ -80,10 +95,15 @@ if __name__ == "__main__":
     else:
         filtered_by_currency = sorted_by_date
 
+    return filtered_by_currency
 
 
-    # Поиск по транзакциям
-    search_in_transactions = input("Отфильтровать список транзакций по определенному слову в описании? Да/Нет\n").lower()
+def get_search_sorted_transactions(filtered_by_currency: list[dict]) -> list[dict]:
+    """Спрашивает у пользователя, нужно ли искать в транзакциях определённое слово.
+    Если да - спрашивает слово и возвращает список тех транзакций, у которых оно встречается в описании."""
+
+    search_in_transactions = input(
+        "Отфильтровать список транзакций по определенному слову в описании? Да/Нет\n").lower()
 
     while search_in_transactions not in ["да", "нет"]:
         search_in_transactions = input('Пожалуйста, введите "да" или "нет"\n').lower()
@@ -94,11 +114,13 @@ if __name__ == "__main__":
     else:
         sorted_transactions = filtered_by_currency
 
+    return sorted_transactions
 
 
-    print("Распечатываю итоговый список транзакций...")
+def print_result(sorted_transactions: list[dict]) -> None:
+    """Выводит найденные транзакции или сообщение о том, что не было найдено подходящих."""
 
-
+    print("\nРаспечатываю итоговый список транзакций...\n")
 
     if len(sorted_transactions) > 0:
         print(f"Всего банковских операций в выборке: {len(sorted_transactions)}")
@@ -120,3 +142,12 @@ if __name__ == "__main__":
 
     else:
         print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации\n")
+
+
+if __name__ == "__main__":
+    transactions = get_transactions()
+    transactions_by_status = get_state_sorted_transactions(transactions)
+    sorted_by_date = get_date_sorted_transactions(transactions_by_status)
+    filtered_by_currency = get_currency_sorted_transactions(sorted_by_date)
+    sorted_transactions = get_search_sorted_transactions(filtered_by_currency)
+    print_result(sorted_transactions)
