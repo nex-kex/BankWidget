@@ -10,7 +10,7 @@ def search_transactions(transactions_list: list[dict], search_info: str) -> list
 
     for transaction in transactions_list:
         if transaction.get("description"):
-            if re.match(search_info.lower(), transaction["description"].lower()):
+            if re.findall(search_info.lower(), transaction["description"].lower()):
                 filtered_transactions.append(transaction)
 
     return filtered_transactions
