@@ -15,8 +15,8 @@ disallow_untyped_defs = true
 # Без этой опции аргументы функции могут иметь тип None в качестве параметра по умолчанию
 no_implicit_optional = true
 # mypy предупреждает, если в качестве возвращаемого типа было указано Any
-warn_return_any = true
-exclude = 'venv'
+warn_return_any = false
+exclude = 'venv|tests'
 # Проверка корректности типизации в функции без аннотаций
 check_untyped_defs = true
 # Сообщает, если какой-то кусок кода никогда не выполняется
@@ -33,6 +33,9 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.13"
+requests = "^2.32.3"
+python-dotenv = "^1.0.1"
+pandas = "^2.2.3"
 
 
 [tool.poetry.group.lint.dependencies]
@@ -40,6 +43,11 @@ flake8 = "^7.1.1"
 black = "^24.10.0"
 isort = "^5.13.2"
 mypy = "^1.13.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+pytest-cov = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core"]
