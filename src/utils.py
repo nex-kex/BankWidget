@@ -1,12 +1,13 @@
 import json
 import logging
+import os
 
 from src.external_api import convert_to_rub
 
 log_path = "../logs/utils.log"
 
 # Устраняет ошибку отсутствия файла при импорте модуля
-if __name__ != "__main__":
+if str(os.path.dirname(os.path.abspath(__name__)))[-3:] != "src":
     log_path = log_path[1:]
 
 
@@ -26,6 +27,18 @@ def get_transactions_info(file_path: str) -> list[dict]:
             logger.info(f"Loading transactions from {file_path}...")
             transactions = json.load(f)
 
+        for transaction in transactions:
+            if transaction.get("operationAmount"):
+                amount = transaction["operationAmount"]["amount"]
+                name = transaction["operationAmount"]["currency"]["name"]
+                code = transaction["operationAmount"]["currency"]["code"]
+
+                del transaction["operationAmount"]
+
+                transaction["amount"] = round(float(amount), 2)
+                transaction["currency_name"] = name
+                transaction["currency_code"] = code
+
     except Exception as ex:
         logger.error(f"Exception occurred: {ex}")
         return []
@@ -33,20 +46,21 @@ def get_transactions_info(file_path: str) -> list[dict]:
     return transactions
 
 
+
 def get_transaction_amount(transaction: dict) -> float:
     """Возвращает сумму транзакции в рублях"""
 
     try:
-        if transaction.get("operationAmount"):
-            currency = transaction["operationAmount"]["currency"]["code"]
+        if transaction.get("amount"):
+            currency = transaction["currency_code"]
 
             if currency == "RUB":
                 logger.info("Transaction's amount in RUB.")
-                return transaction["operationAmount"]["amount"]
+                return transaction["amount"]
 
             else:
                 logger.info("Converting transaction's amount to RUB...")
-                return convert_to_rub(transaction["operationAmount"]["amount"], currency)
+                return convert_to_rub(transaction["amount"], currency)
 
         else:
             logger.warning("Could not determine transaction's amount.")
