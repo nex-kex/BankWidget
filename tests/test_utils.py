@@ -7,7 +7,10 @@ def test_get_transactions_info_exception():
     assert get_transactions_info("file") == []
 
 
-@patch("builtins.open", mock_open(read_data="""[{
+@patch(
+    "builtins.open",
+    mock_open(
+        read_data="""[{
     "id": 200634844,
     "state": "CANCELED",
     "date": "2018-02-13T04:43:11.374324",
@@ -21,7 +24,9 @@ def test_get_transactions_info_exception():
     "description": "Перевод организации",
     "from": "Счет 33355011456314142963",
     "to": "Счет 45735917297559088682"
-  }]"""))
+  }]"""
+    ),
+)
 def test_get_transactions_info(RUS_transaction):
     assert get_transactions_info("./data/operations.json") == [RUS_transaction]
 
@@ -43,10 +48,7 @@ def test_get_transaction_amount_rus(RUS_transaction):
 @patch("requests.get")
 def test_get_transaction_amount_not_rus(mock_get):
     mock_get.return_value.json.return_value = {"result": 123.45}
-    assert (
-        get_transaction_amount({"amount": 1, "currency_name": "USD", "currency_code": "USD"})
-        == 123.45
-    )
+    assert get_transaction_amount({"amount": 1, "currency_name": "USD", "currency_code": "USD"}) == 123.45
 
 
 def test_get_transaction_amount_no_amount():

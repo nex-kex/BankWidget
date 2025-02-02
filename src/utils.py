@@ -46,7 +46,6 @@ def get_transactions_info(file_path: str) -> list[dict]:
     return transactions
 
 
-
 def get_transaction_amount(transaction: dict) -> float:
     """Возвращает сумму транзакции в рублях"""
 
