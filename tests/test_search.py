@@ -1,5 +1,4 @@
-from src.search import search_transactions, filter_by_category
-from tests.conftest import csv_transactions
+from src.search import filter_by_category, search_transactions
 
 
 def test_search_transactions(csv_transactions):
